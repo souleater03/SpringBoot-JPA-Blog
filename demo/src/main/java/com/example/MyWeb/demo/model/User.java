@@ -1,11 +1,17 @@
 package com.example.MyWeb.demo.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
+
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder //빌더 패턴!!
 @Entity //User 클래스로 자동 Mysql에 table 생성
 public class User {
 
