@@ -1,3 +1,4 @@
+
 package com.example.MyWeb.demo.config;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -15,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.
                 authorizeHttpRequests(authorizeHttpRequests ->
                 {
@@ -35,5 +36,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 }
