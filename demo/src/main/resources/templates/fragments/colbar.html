@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="colbar">
+
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <a class="navbar-brand" href="/">홈</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+            <div th:text="${#authentication.principal.username}">[Username]</div>
+        </div>
+
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+
+            <div th:if="${#authorization.expression('isAuthenticated()')}">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/board/form">글쓰기</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/form">회원정보</a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">로그아웃</a>
+                    </li>
+                </ul>
+            </div>
+
+                <div th:unless="${#authorization.expression('isAuthenticated()')}">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/loginForm">로그인</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/joinForm">회원가입</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+
+
+
+        </div>
+    </nav>
+
+</th:block>
 </html>

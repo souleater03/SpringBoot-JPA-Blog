@@ -26,7 +26,7 @@ public class User {
     @Column(nullable = false,length = 50)
     private String email;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING) //DB상 0,1이아닌 USER라고 저장하기위해!
     private Role role;
 
     @CreationTimestamp //시간 자동입력

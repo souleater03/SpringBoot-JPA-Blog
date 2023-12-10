@@ -1,7 +1,7 @@
 server:
   port: 8000
   servlet:
-    context-path: /blog
+    context-path: /
     encoding:
       charset: UTF-8
       enabled: true
@@ -33,3 +33,7 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+
+  devtools:
+    restart:
+      enabled: true

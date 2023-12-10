@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>베빵 블로그</title>
+    <th:block th:replace="/fragments/header.html :: colbar"></th:block>
 </head>
 <body>
-$END$
+
+    <th:block th:replace="/fragments/colbar.html :: colbar"></th:block>
+<br>
+
+<div class="container text-center">
+    <h2 class="text-center">Some link</h2>
+    <p class="text-center">Empty</p>
+    <div class="card m-2 mx-auto" style="max-width: 400px;">
+        <img class="card-img-top mx-auto" src="https://i.pinimg.com/736x/f9/c9/4b/f9c94b827893c454a1d17af200f96e07.jpg" alt="Card image" style="width: 100%;">
+        <div class="card-body">
+            <h4 class="card-title">Empty</h4>
+            <p class="card-text">Empty</p>
+            <a href="#" class="btn btn-primary stretched-link">Empty</a>
+        </div>
+    </div>
+
+
+</div>
+<th:block th:replace="/fragments/footer.html :: fragment-footer"></th:block>
+
 </body>
 </html>
