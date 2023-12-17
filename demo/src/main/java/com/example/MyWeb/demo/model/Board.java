@@ -23,9 +23,10 @@ public class Board {
     private String title;
 
     @Lob //대용량 데이터
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
-    @ColumnDefault("0")
+
     private int count;
 
     @ManyToOne(fetch = FetchType.EAGER) //Many = Board , One = User 유저는 여러개의 게시글을 쓸 수 있다. board라는 table내의 설명
