@@ -9,9 +9,6 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div th:if="${#authorization.expression('isAuthenticated()')}">
-            <div th:text="${#authentication.principal.username}">[Username]</div>
-        </div>
 
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
 
