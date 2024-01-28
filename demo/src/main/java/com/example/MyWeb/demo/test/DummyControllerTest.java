@@ -38,7 +38,7 @@ public class DummyControllerTest {
     //{id} 주소로 파라미터 전달받기 가능
     //http://localhost:8000/blog/dummy/user/3 이런식
     @GetMapping("/dummy/user/{id}")
-    public User detail(@PathVariable int id){
+    public User detail(@PathVariable Long id){
         //리턴타입이 optional임  user/4찾게 될때 db에 없음 null이됌.
         //그럼 null이 return됨으로 문제가 생김. 그래서 optional로 감싸서 가져오니 null인지 아닌지 판단해서 return하라는것
         //User user = userRepository.findById(id).orElseThrow(new Supplier<IllegalArgumentException>(){
@@ -85,7 +85,7 @@ public class DummyControllerTest {
     //save메소드는 data가 없을때는 insert, 있을때는 update를 해준다.
     @Transactional //save호출안해도됨, 더티체킹: 이 어노테이션을 걸어주면 변경점을 찾아 자동 commit해줌,변경감지!!(이게 더티체킹이다.)
     @PutMapping("/dummy/user/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody User requestUser){
+    public User updateUser(@PathVariable Long id, @RequestBody User requestUser){
 
         User user =userRepository.findById(id).orElseThrow(()->{ //여기서 user객체는 영속화!(entity)
             return new IllegalArgumentException("수정에 실패하였습니다.");
@@ -98,7 +98,7 @@ public class DummyControllerTest {
     }
 
     @DeleteMapping("/dummy/user/{id}")
-    public String delete(@PathVariable int id){
+    public String delete(@PathVariable Long id){
         try{
             userRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e){

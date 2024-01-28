@@ -18,6 +18,7 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+
     @GetMapping({"","/"})
     public String index(Model model, @PageableDefault(size = 6, sort = "id",direction = Sort.Direction.DESC)Pageable pageable){
         model.addAttribute("boards",boardService.글목록(pageable));
@@ -25,14 +26,15 @@ public class BoardController {
     } //컨트롤러에서 세션을 어떻게 찾냐?
 
     @GetMapping("/board/{id}")
-    public String findById(@PathVariable int id,Model model){
+    public String findById(@PathVariable Long id,Model model){
         model.addAttribute("board",boardService.글상세보기(id));
+        model.addAttribute("comments",boardService.댓글목록(id));
         return "board/detail";
 
     }
 
     @GetMapping("/board/{id}/updateForm")
-    public String updateForm(@PathVariable int id,Model model){
+    public String updateForm(@PathVariable Long id,Model model){
         model.addAttribute("board",boardService.글상세보기(id));
         return "board/updateForm";
     }
@@ -41,4 +43,6 @@ public class BoardController {
     public String saveForm(){
         return "board/saveForm";
     }
+
+
 }

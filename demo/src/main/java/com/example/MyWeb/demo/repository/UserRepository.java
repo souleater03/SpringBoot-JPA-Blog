@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 //@Repository 생략가능 jparepository를 extends해서
-public interface UserRepository extends JpaRepository<User, Integer> { //user table의 primary key는 integer
+public interface UserRepository extends JpaRepository<User, Long> { //user table의 primary key는 integer
     //SELECT * FROM user WHERE username=1?;
     Optional<User> findByUsername(String username);
 }

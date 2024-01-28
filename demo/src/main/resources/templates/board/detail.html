@@ -8,61 +8,107 @@
 </head>
 <body>
 
-    <th:block th:replace="/fragments/colbar.html :: colbar"></th:block>
+<th:block th:replace="/fragments/colbar.html :: colbar"></th:block>
 <br>
 
 <div class="container">
+    <!-- 뒤로 가기 버튼 -->
     <button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
+
+    <!-- 글 삭제 및 수정 버튼 -->
     <span th:if="${#authentication.principal.user.id} == ${board.user.id}">
-        <button id="btn-delete" class="btn btn-danger">삭제</button>
-        <a th:href="@{'/board/' + ${board.id} +'/updateForm'}" class="btn btn-warning">수정</a>
-    </span>
+            <button id="btn-delete" class="btn btn-danger">삭제</button>
+            <a th:href="@{'/board/' + ${board.id} + '/updateForm'}" class="btn btn-warning">수정</a>
+        </span>
 
     <br/><br/>
     <div>
-        글 번호 : <span id="id"><i>[[${board.id}]] </i></span>
-        작성자 : <span><i>[[${board.user.username}]] </i></span>
-
+        <!-- 글 정보 표시 -->
+        글 번호: <span id="id"><i th:text="${board.id}"></i></span>
+        작성자: <span><i th:text="${board.user.username}"></i></span>
     </div>
+
     <br/>
-        <div class="form-group">
+    <div class="form-group">
+        <!-- 글 제목 표시 -->
+        <h3 th:text="${board.title}"></h3>
+    </div>
 
-            <h3>[[${board.title}]]</h3>
+    <hr/>
+
+    <div class="form-group">
+        <div>
+            <!-- 글 내용 표시 -->
+            <span th:utext="${board.content}"></span>
         </div>
-        <hr/>
-        <div class="form-group">
-            <div>
-                <span th:utext="${board.content}"></span>
+    </div>
+
+    <div class="card">
+        <!-- 댓글 작성 폼 -->
+        <form>
+            <input type="hidden" id="userId" th:value="${#authentication.principal.user.id}"/>
+            <input type="hidden" id="boardId" th:value="${board.id}"/>
+            <div class="card-body">
+                <textarea id="reply-content" class="form-control" rows="1"></textarea>
             </div>
-        </div>
+            <div class="card-footer">
+                <button type="button" id="btn-reply-save" class="btn btn-primary">등록</button>
+            </div>
+        </form>
+    </div>
 
+    <br/>
 
-        <div class="card">
-            <form>
-                <input type="hidden" id="boardId" th:value="${board.id}"/>
-                <div class="card-body"><textarea id="reply-content" class="form-control" rows="1"></textarea></div>
-                <div class="card-footer"><button type="button" id="btn-reply-save" class="btn btn-primary">등록</button></div>
-            </form>
-        </div>
-        <br/>
-        <div class="card">
-            <div class="card-header">댓글</div>
-            <ul id="reply--box" class="list-group">
-                <div th:each="reply : ${board.replys}">
-                <li id="reply--1" class="list-group-item d-flex justify-content-between">
-                    <div>[[${reply.content}]]</div>
-                    <div class="d-flex">
-                        <div class="font-italic"> 작성자 : [[${reply.user.username}]] &nbsp;</div>
-                        <button class="badge">삭제</button>
+    <div class="card">
+        <div class="card-header">댓글</div>
+        <!-- 댓글 목록 -->
+        <ul id="reply-box" class="list-group">
+            <li th:each="reply : ${comments}" id="reply-[[${reply.id}]]" class="list-group-item">
+                <!-- 부모 댓글 내용 및 작성자 정보 -->
+                <div>
+                    <div th:text="${reply.content}"></div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="font-italic">작성자: [[${reply.user.username}]]</div>
+                        <div>
+                            <input type="hidden" id="parentId-[[${reply.id}]]" th:value="${reply.id}"/>
+                            <button type="button" id="button-form-reply-[[${reply.id}]]" class="btn btn-primary">등록</button>
+                            <button class="btn btn-danger">삭제</button>
+                        </div>
                     </div>
-                </li>
                 </div>
-            </ul>
-        </div>
 
+                <!-- 자식 댓글 목록 -->
+                <ul th:if="${#lists.size(reply.children) gt 0}" class="list-group">
+                    <li th:each="child : ${reply.children}" id="reply-[[${child.id}]]" class="list-group-item">
+                        <!-- 자식 댓글 내용 및 작성자 정보 -->
+                        <div>
+                            <div th:text="${child.content}"></div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="font-italic">작성자: [[${child.user.username}]]</div>
 
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- 대댓글 작성 폼 -->
+                <div class="card" style="margin-left: 20px; margin-top: 10px;">
+                    <form>
+                        <div id="reply-form" style="display: none;">
+                            <input type="hidden" id="sub-userId" th:value="${#authentication.principal.user.id}"/>
+                            <input type="hidden" id="sub-boardId" th:value="${board.id}"/>
+                            <input type="hidden" id="sub-parentId" th:value="${reply.id}"/>
+                            <textarea id="reply-sub-content" class="form-control" rows="1"></textarea>
+                            <button type="button" id="btn-reply-sub-save" class="btn btn-primary">등록</button>
+                        </div>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
-    <script src="/js/board.js"></script>
+
+<script src="/js/board.js"></script>
 <th:block th:replace="/fragments/footer.html :: fragment-footer"></th:block>
 
 </body>
